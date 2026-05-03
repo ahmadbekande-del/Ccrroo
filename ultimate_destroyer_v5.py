@@ -357,6 +357,19 @@ def analyze_coin(symbol):
     chg24h = float(ticker.get('changeRate', 0)) * 100
 
     if price == 0:
+            # إضافة بيانات الرسم البياني (آخر 20 شمعة)
+    history_data = []
+    if '1hour' in dfs:
+        last_candles = dfs['1hour'].tail(20)
+        for _, row in last_candles.iterrows():
+            history_data.append({'time': int(row['time'].timestamp()), 'value': row['close']})
+
+    return {
+        'coin'       : symbol,
+        'price'      : price,
+        'history'    : history_data, # <--- البيانات الحقيقية للرسم
+        # ... باقي البيانات كما هي
+
         return None
 
     # فلتر السيولة
